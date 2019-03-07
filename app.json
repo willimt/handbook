@@ -1,0 +1,41 @@
+{
+  "pages":[
+    "pages/home/home",
+    "pages/logs/logs",
+    "pages/index/index",
+    "pages/detail/detail",
+    "pages/edit/edit",
+    "pages/statistics/statistics"
+  ],
+  "window":{
+    "backgroundTextStyle":"light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "简单记账",
+    "navigationBarTextStyle":"black"
+  },
+  "tabBar": {
+    "color": "#b2b2b2",
+    "selectedColor": "#2fcc85",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/home/home",
+        "text": "我的账单",
+        "iconPath": "image/my.png",
+        "selectedIconPath": "image/my_link.png"
+      },
+      {
+        "pagePath": "pages/edit/edit",
+        "text": "记一笔",
+        "iconPath": "image/edit.png",
+        "selectedIconPath": "image/edit_link.png"
+      },
+      {
+        "pagePath": "pages/statistics/statistics",
+        "text": "统计",
+        "iconPath": "image/tj.png",
+        "selectedIconPath": "image/tj_link.png"
+      }
+    ]
+  }
+}

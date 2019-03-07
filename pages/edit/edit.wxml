@@ -1,0 +1,51 @@
+<!--pages/add/add.wxml-->
+<view class='add-page'>
+  <view class='mod-a'>
+    <!-- 标题名称 -->
+    <view class='mod t-name hengxian'>
+      <text class='key'>标题</text>
+      <input class='input' bindinput="bindKeyInput" maxlength='100' placeholder='请输入内容' value='{{inputValue}}'></input> 
+    </view>
+    <view class='mod t-name'>
+      <text class='key'>备注</text>
+      <input class='input' bindinput="bindKeyInput" maxlength='100' placeholder='' value='{{inputValue}}'></input> 
+    </view>
+  </view>
+
+  <view class="section">
+        <view class="section__title hengxian">类型</view>
+        <radio-group class="radio-group hengxian" bindchange="radioChange">
+            <label class="radio">
+                <radio class="radio" value="+" checked="true"/>收入
+            </label>
+            <label class="radio">
+                <radio class="radio" value="-"/>支出
+            </label>
+        </radio-group>
+    </view>
+  <view class="section">
+        <view class="section__title">金额</view>
+        <input bindinput="bindAccountInput" type="number" value="{{account}}" placeholder="请输入数字，无需加正负号"/>
+  </view>
+  <view class='mod-a mt20'>
+    <!-- 日期 -->
+    <view class='mod '>
+      <text >开始</text>
+      <view class='start'>
+        <picker mode='' bindchange='stratChange' value="{{task.startDay}}" start='{{task.startDay}}'>
+          <view class='date'>{{task.startDay}}<image class='arrow-d' src='/image/arrow-d-0.png'></image>
+          </view>
+        </picker>
+      </view>
+      
+    </view>
+  </view>
+  <!--创建按钮-->
+  <view class='create'>
+    <button class="btn {{creating?'disabled':''}}" bindtap='bindSubmit'>添加</button>
+  </view>
+  <!-- 提示信息 -->
+  <modal confirm-text="确定"no-confirm  no-cancel hidden="{{task.modalHidden}}" mask bindconfirm="modalChange">
+        请完善具体信息
+    </modal>
+</view>
