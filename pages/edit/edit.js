@@ -2,73 +2,118 @@
 var app = getApp();
 var util = require('../../utils/util.js');
 Page({
+
+  /**
+   * 页面的初始数据
+   */
   data: {
-    bill: {
+    task: {
+      inputValue: '',
       name: '',
-      remark:'',
-      type:'+',
-      account:'',
+      signTime: '00:00',
+      signEarlyTime: '00:00',
       startDay: '2019-3-2',
+      endDay: '2019-3-2',
+      repeat: {
+        'monday': 1,
+        'tuesday': 1,
+        'wednesday': 1,
+        'thursday': 1,
+        'friday': 1,
+        'satuiday': 0,
+        'sunday': 0
+      },
       openId: '',
       userInfo: {},
-      typeindex:0
-    },
-    typearray: app.globalData.typearray,
-    typeindex: 0,
-    modalHidden: true,
-    alertHidden: true,
-    alertHidden: '添加成功'
+      creating: false,
+      modalHidden: true
+    }
   },
-  //设置名称
+  //设置任务名称
   bindKeyInput: function (e) {
-    var that=this;
-    that.setData({
-      'bill.name': e.detail.value
+    this.setData({
+      'task.name': e.detail.value
     });
   },
-  //备注
-  bindremarkInput: function(e){
-    var that=this;
+  //设置打卡时间
+  setSignTime: function (e) {
+    var that = this;
+    var hour = ((+e.detail.value.slice(0, 2) + 24 - 2) % 24).toString();
     that.setData({
-      'bill.remark':e.detail.value
-    })
-  },
-  bindTypeArrayChange: function (e) {
-    this.setData({
-      typeindex: e.detail.value,
-      'bill.typeindex': e.detail.value
-    })
-  },
-  //金额类型
-  radioChange: function(e){
-    var that=this;
-    that.setData({
-      'bill.type':e.detail.value
-    })
+      'task.signTime': e.detail.value,
+      'task.signEarlyTime': (hour[1] ? hour : '0' + hour) + ':' + e.detail.value.slice(3, 5)
+    });
   },
   //设置开始日期
   stratChange: function (e) {
-    var that=this;
-    that.setData({
-      'bill.startDay': e.detail.value
+    this.setData({
+      'task.startDay': e.detail.value
     });
   },
-  //金额数额
-  bindAccountInput: function(e){
-    var that=this;
-    that.setData({
-      'bill.account':e.detail.value
+  //设置结束日期
+  endChange: function (e) {
+    this.setData({
+      'task.endDay': e.detail.value
+    });
+  },
+  //设置重复日期
+  changeMonday: function (e) {
+    var state = this.data.task.repeat.monday;
+    this.setData({
+      'task.repeat.monday': (state == 1 ? 0 : 1)
     })
+  },
+  changeTuesday: function (e) {
+    var state = this.data.task.repeat.tuesday;
+    this.setData({
+      'task.repeat.tuesday': (state == 1 ? 0 : 1)
+    })
+  },
+  changeWednesday: function (e) {
+    var state = this.data.task.repeat.wednesday;
+    this.setData({
+      'task.repeat.wednesday': (state == 1 ? 0 : 1)
+    });
+  },
+  changeThursday: function (e) {
+    var state = this.data.task.repeat.thursday;
+    this.setData({
+      'task.repeat.thursday': (state == 1 ? 0 : 1)
+    });
+  },
+  changeFriday: function (e) {
+    var state = this.data.task.repeat.friday;
+    this.setData({
+      'task.repeat.friday': (state == 1 ? 0 : 1)
+    });
+  },
+  changeSaturday: function (e) {
+    var state = this.data.task.repeat.saturday;
+    this.setData({
+      'task.repeat.saturday': (state == 1 ? 0 : 1)
+    });
+  },
+  changeSunday: function (e) {
+    var state = this.data.task.repeat.sunday;
+    this.setData({
+      'task.repeat.sunday': (state == 1 ? 0 : 1)
+    });
   },
   //初始化
   onLoad: function (options) {
     var that = this;
-    var now = new Date();
     var openId = wx.getStorageSync('openId');
-    
+    var now = new Date();
+
+    that.setData({
+      'task.signTime': util.getHM(now),
+      'task.signEarlyTime': util.getHM(new Date(now.getTime() - 1000 * 3600 * 2))
+    });
+
     // 初始化日期
     that.setData({
-      'bill.startDay': util.getYMD(now)
+      'task.startDay': util.getYMD(now),
+      'task.endDay': util.getYMD(now)
     });
     that.setData({
       'userInfo': app.globalData.userInfo
@@ -78,50 +123,41 @@ Page({
       openId: openId
     })
   },
-  
   // 隐藏提示弹层
+  modalChange: function (e) {
+    this.setData({
+      'task.modalHidden': true
+    })
+  },
   bindSubmit: function (e) {
     var that = this;
-    var bill = this.data.bill;
+    var task = this.data.task;
     var creating = this.data.creating;
-    if (this.data.bill.name == '') {
-      // 提示框
-      that.setData({
-        alertHidden: false,
-        alertTitle: '标题不能为空'
+    if (task.name == '') {
+      this.setData({
+        'task.modalHidden': false
       });
-      return
     }
-    var re = /^[0-9]+.?[0-9]*$/;
-    if (!re.test(this.data.bill.account)) {
-      // 提示框
-      that.setData({
-        alertHidden: false,
-        alertTitle: '金额只能是数字'
-      });
-      return
-    }  
-    that.createbill();
+    else {
+      if (!creating) {
+        this.setData({
+          'creating': true
+        });
+        that.createTask();
+      }
+    }
   },
 
-  createbill: function (e) {
-    var tempbills = wx.getStorageSync('bills');
-    tempbills.push(this.data.bill);
-    wx.setStorageSync('bills', tempbills);
-    console.log(wx.getStorageSync('bills'));
+  createTask: function (e) {
+    var temptasks = wx.getStorageSync('tasks');
+    temptasks.push(this.data.task);
+    wx.setStorageSync('tasks', temptasks);
+    console.log(wx.getStorageSync('tasks'));
+    wx.navigateTo({
+      url: '../add/success/success',
+    })
     this.setData({
       inputValue: ""
-    })
-    
-  },
-  hideAlertView: function () {
-    this.setData({
-      alertHidden: true
-    })
-  },
-  hideModal: function () {
-    this.setData({
-      modalHidden: true
     })
   },
   /**
@@ -136,6 +172,9 @@ Page({
    */
   onShow: function () {
     //恢复新建状态
+    this.setData({
+      'creating': false
+    });
   },
 
   /**
