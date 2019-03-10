@@ -1,3 +1,4 @@
+@import "../../utils/weui.wxss";
 .mt20{
   margin-top: 20rpx;
 }
