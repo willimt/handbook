@@ -111,8 +111,10 @@ Page({
     console.log(wx.getStorageSync('bills'));
     this.setData({
       inputValue: ""
+    });
+    wx.switchTab({
+      url: '../../pages/home/home',
     })
-    
   },
   hideAlertView: function () {
     this.setData({
