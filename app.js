@@ -5,7 +5,8 @@ App({
     var logs = wx.getStorageSync('logs') || []
     logs.unshift(Date.now())
     wx.setStorageSync('logs', logs)
-
+    var bills=[];
+    wx.setStorageSync('bills', bills);
     // 登录
     wx.login({
       success: res => {
@@ -34,6 +35,7 @@ App({
     })
   },
   globalData: {
-    userInfo: null
+    userInfo: null,
+    typearray: ['购物', '餐饮', '交通', '住宿', '玩乐', '其他']
   }
 })
