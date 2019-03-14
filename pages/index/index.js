@@ -1,10 +1,9 @@
 //index.js
 //获取应用实例
 const app = getApp()
-
+ 
 Page({
   data: {
-    motto: 'Hello World',
     userInfo: {},
     hasUserInfo: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo')
@@ -43,12 +42,22 @@ Page({
       })
     }
   },
-  getUserInfo: function(e) {
-    console.log(e)
-    app.globalData.userInfo = e.detail.userInfo
-    this.setData({
-      userInfo: e.detail.userInfo,
-      hasUserInfo: true
+  
+  
+  getUserInfo() {//同意授权，获取用户信息，encryptedData是加密字符串，里面包含unionid和openid信息
+    wx.getUserInfo({
+      withCredentials: true,//此处设为true，才会返回encryptedData等敏感信息
+      success: res => {
+        // 可以将 res 发送给后台解码出 unionId
+        app.globalData.userInfo = res.userInfo;
+        app.globalData.encryptedData = res.encryptedData;
+        app.globalData.iv = res.iv;
+        console.log(res)
+      }
     })
-  }
+    wx.switchTab({
+      url: '../../pages/home/home',
+    })
+  },
+  
 })

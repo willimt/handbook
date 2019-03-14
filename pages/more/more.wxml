@@ -1,0 +1,11 @@
+<view class='mod-a'>
+    <!-- 标题名称 -->
+    <view class='mod t-name hengxian'>
+      <text class='key'>标题</text>
+      <text>{{sublist[subindex].title}}</text>
+    </view>
+    <view class='mod t-name'>
+      <text class='key'>备注</text>
+      <text>{{sublist[subindex].remark}}</text>
+    </view>
+</view>

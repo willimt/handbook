@@ -1,90 +1,95 @@
 // pages/add/add.js
 var app = getApp();
 var util = require('../../utils/util.js');
+var list=[]
 Page({
   data: {
-    bill: {
-      name: '',
-      remark:'',
-      type:'+',
-      account:'',
-      startDay: '2019-3-2',
-      openId: '',
-      userInfo: {},
-      typeindex:0
-    },
+    title: '',
+    remark:'',
+    type:'+',
+    account:'',
+    startDay: '2019-3-2',
+    openId: '',
+    userInfo: {},
+    numberarray: app.globalData.numberarray,
+    numberindex: 0,
     typearray: app.globalData.typearray,
     typeindex: 0,
+    mainindex: 0,
+    subindex: 0,
     modalHidden: true,
     alertHidden: true,
-    alertHidden: '添加成功'
+    alertHidden: '添加成功',
+    inidata: {}
   },
   //设置名称
   bindKeyInput: function (e) {
     var that=this;
     that.setData({
-      'bill.name': e.detail.value
+      title: e.detail.value
     });
   },
   //备注
   bindremarkInput: function(e){
     var that=this;
     that.setData({
-      'bill.remark':e.detail.value
+      remark:e.detail.value
     })
   },
   bindTypeArrayChange: function (e) {
     this.setData({
       typeindex: e.detail.value,
-      'bill.typeindex': e.detail.value
     })
   },
   //金额类型
   radioChange: function(e){
     var that=this;
     that.setData({
-      'bill.type':e.detail.value
+      type:e.detail.value
     })
   },
   //设置开始日期
   stratChange: function (e) {
     var that=this;
     that.setData({
-      'bill.startDay': e.detail.value
+      startDay: e.detail.value
     });
   },
   //金额数额
   bindAccountInput: function(e){
     var that=this;
     that.setData({
-      'bill.account':e.detail.value
+      account:e.detail.value
     })
   },
   //初始化
-  onLoad: function (options) {
+  onLoad: function (params) {
     var that = this;
     var now = new Date();
     var openId = wx.getStorageSync('openId');
-    
+    list = wx.getStorageSync('cashflow') || []
+
     // 初始化日期
     that.setData({
-      'bill.startDay': util.getYMD(now)
+      startDay: util.getYMD(now)
     });
+
     that.setData({
-      'userInfo': app.globalData.userInfo
+      userInfo: app.globalData.userInfo
     });
     console.log(app.globalData.userInfo)
     that.setData({
       openId: openId
+    })
+    that.setData({
+      mainindex: params.mainindex,
     })
   },
   
   // 隐藏提示弹层
   bindSubmit: function (e) {
     var that = this;
-    var bill = this.data.bill;
-    var creating = this.data.creating;
-    if (this.data.bill.name == '') {
+    if (this.data.title== '') {
       // 提示框
       that.setData({
         alertHidden: false,
@@ -93,7 +98,7 @@ Page({
       return
     }
     var re = /^[0-9]+.?[0-9]*$/;
-    if (!re.test(this.data.bill.account)) {
+    if (!re.test(this.data.account)) {
       // 提示框
       that.setData({
         alertHidden: false,
@@ -105,15 +110,37 @@ Page({
   },
 
   createbill: function (e) {
-    var tempbills = wx.getStorageSync('bills');
-    tempbills.push(this.data.bill);
-    wx.setStorageSync('bills', tempbills);
-    console.log(wx.getStorageSync('bills'));
-    this.setData({
-      inputValue: ""
+    list[this.data.mainindex].items.push(
+      {
+        title: this.data.title,
+        remark: this.data.remark,
+        account: parseFloat(this.data.account || '0'),
+        startDay: this.data.startDay,
+        typeindex: parseInt(this.data.typeindex),
+        type:this.data.type
+      }
+    )
+    
+    wx.setStorageSync('cashflow',list);
+    console.log(wx.getStorageSync('cashflow'));
+    wx.showToast({
+      title: '成功',
+      icon: 'success',
+      duration: 2000
     })
-    wx.switchTab({
-      url: '../../pages/home/home',
+    wx.navigateBack({
+      delta: 1, // 回退前 delta(默认为1) 页面
+      success: function (res) {
+        // success
+        console.log('goback succ')
+      },
+      fail: function () {
+        // fail
+        console.log('goback fail')
+      },
+      complete: function () {
+        // complete
+      }
     })
   },
   hideAlertView: function () {

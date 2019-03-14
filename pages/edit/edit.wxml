@@ -40,8 +40,8 @@
     <view class='mod '>
       <text >日期</text>
       <view class='start'>
-        <picker mode='date' bindchange='stratChange' value="{{bill.startDay}}" start='{{bill.startDay}}'>
-          <view class='date'>{{bill.startDay}}<image class='arrow-d' src='/image/arrow-d-0.png'></image>
+        <picker mode='date' bindchange='stratChange' value="{{startDay}}" start='{{startDay}}'>
+          <view class='date'>{{startDay}}<image class='arrow-d' src='/image/arrow-d-0.png'></image>
           </view>
         </picker>
       </view>
