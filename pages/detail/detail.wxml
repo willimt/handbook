@@ -1,4 +1,10 @@
 <view class="container">
+<movable-area style="height: 700px;width: 100%;">
+  <movable-view direction="all" x="280" y="80" style="height: 50px; width: 50px;z-index:999999;position: fixed;">
+  <navigator url="../edit/edit?mainindex={{mainindex}}" hover-class="navigator-hover">
+        <image class="float-action2" src="../../image/add-select.png"></image>
+      </navigator>
+  </movable-view>
   <view class="t-menu">
         <view class="t-menu-btn {{tabIndex ? '' : 'selected'}}" bindtap="changeTab" id="mybills">
             <text>账单</text>
@@ -9,12 +15,9 @@
   </view>
   <view id="mybills" class="t-content {{tabIndex ? '' :'t-content-show'}}">
     <view class="page-head">
-      <view class="page-head-desc">本次活动共计花费{{ sum }}元。
+      <view class="page-head-desc">本次共计花费{{ sum }}元。
       </view>
       <view class="page-head-line"></view>
-    </view>
-    <view class='create'>
-      <button class="btn" bindtap='addbill'>添加</button>
     </view>
     <view class="page-body">
       <view class="index-bd">
@@ -37,7 +40,7 @@
   <view id="statistics" class="t-content {{tabIndex ? 't-content-show':'' }}"> 
     <view class="container">
   <view class="page-head">
-    <view class="page-head-desc">本次活动共计花费{{ sum }}元。
+    <view class="page-head-desc">本次共计花费{{ sum }}元。
     </view>
     <view class="page-head-line"></view>
   </view>
@@ -51,4 +54,5 @@
     </view>
     </view>
   </view>
+</movable-area>
 </view>

@@ -1,5 +1,12 @@
 <!--index.wxml-->
 <view class="container">
+<movable-area style="height: 500px;width: 100%;">
+  <movable-view direction="all" x="280" y="80" style="height: 50px; width: 50px;z-index:999999;position: fixed;">
+  <view bindtap="showModal1">
+      <image class="float-action2" src="../../image/add-select.png"></image>
+    </view>
+  </movable-view>
+
   <view class="userinfo">
     <image class="userinfo-avatar" src="{{userInfo.avatarUrl}}" background-size="cover"></image>
     <text class="userinfo-nickname">{{userInfo.nickName}}的私人账本</text>
@@ -27,11 +34,12 @@
         <view class="del" catchtap="del" data-index="{{index}}">删除</view>
       </view>
     </view>
-    <view bindtap="showModal1">
-      <image class="float-action2" src="../../image/add-select.png"></image>
-    </view>
+    
+    
   </view>
   <modal class="modal" hidden="{{alertHidden}}" no-cancel bindconfirm="hideAlertView">
   <view>{{alertTitle}}</view>
   </modal>
+  
+</movable-area>
 </view>

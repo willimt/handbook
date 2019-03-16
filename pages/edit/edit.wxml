@@ -21,7 +21,7 @@
     </view>
   <view class="section">
         <view class="section__title">金额</view>
-        <input bindinput="bindAccountInput" type="number" value="{{account}}" placeholder="请输入数字，无需加正负号"/>
+        <input bindinput="bindAccountInput" type="digit" confirm-type="done" value="{{account}}" placeholder="请输入数字，无需加正负号"/>
   </view>
   <view class='mod-a mt20'>
     <!-- 日期 -->
