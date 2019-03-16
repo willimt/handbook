@@ -35,6 +35,6 @@ App({
   },
   globalData: {
     userInfo: null,
-    typearray: ['购物', '餐饮', '交通', '住宿', '玩乐', '其他']
+    typearray: ['购物', '餐饮', '交通', '住宿', '玩乐', '其他'],
   }
 })

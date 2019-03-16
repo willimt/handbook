@@ -6,9 +6,9 @@ Page({
   data: {
     title: '',
     remark:'',
-    type:'+',
     account:'',
     startDay: '2019-3-2',
+    date:'',
     openId: '',
     userInfo: {},
     numberarray: app.globalData.numberarray,
@@ -41,18 +41,18 @@ Page({
       typeindex: e.detail.value,
     })
   },
-  //金额类型
-  radioChange: function(e){
-    var that=this;
-    that.setData({
-      type:e.detail.value
-    })
-  },
+
   //设置开始日期
   stratChange: function (e) {
     var that=this;
     that.setData({
       startDay: e.detail.value
+    });
+  },
+  dateChange: function(e){
+    var that = this;
+    that.setData({
+      date: e.detail.value
     });
   },
   //金额数额
@@ -71,19 +71,13 @@ Page({
 
     // 初始化日期
     that.setData({
-      startDay: util.getYMD(now)
-    });
-
-    that.setData({
-      userInfo: app.globalData.userInfo
+      startDay: util.getYMD(now),
+      date:util.getHMS(now),
+      userInfo: app.globalData.userInfo,
+      openId: openId,
+      mainindex: params.mainindex,
     });
     console.log(app.globalData.userInfo)
-    that.setData({
-      openId: openId
-    })
-    that.setData({
-      mainindex: params.mainindex,
-    })
   },
   
   // 隐藏提示弹层
@@ -117,10 +111,14 @@ Page({
         account: parseFloat(this.data.account || '0'),
         startDay: this.data.startDay,
         typeindex: parseInt(this.data.typeindex),
-        type:this.data.type
+        date:this.data.date
       }
     )
-    
+    list[this.data.mainindex].items.sort(function (a, b) {
+      var d1 = new Date(a.startDay.replace(/-/g, '/') + ' ' + a.date)
+      var d2 = new Date(b.startDay.replace(/-/g, '/') + ' ' + b.date)
+      return d2 - d1
+    }) 
     wx.setStorageSync('cashflow',list);
     console.log(wx.getStorageSync('cashflow'));
     wx.showToast({

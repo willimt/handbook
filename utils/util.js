@@ -16,7 +16,13 @@ function getYMD(date) {
 
   return [year, month, day].map(formatNumber).join('-')
 }
+function getHMS(date) {
+  var hour = date.getHours()
+  var minute = date.getMinutes()
+  var second = date.getSeconds()
 
+  return [hour, minute, second].map(formatNumber).join(':')
+}
 const formatNumber = n => {
   n = n.toString()
   return n[1] ? n : '0' + n
@@ -24,5 +30,6 @@ const formatNumber = n => {
 
 module.exports = {
   formatTime: formatTime,
-  getYMD: getYMD
+  getYMD: getYMD,
+  getHMS: getHMS
 }

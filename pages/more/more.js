@@ -30,7 +30,6 @@ Page({
     that.setData({
       sublist:list[this.data.mainindex].items
     })
-    //console.log(sublist);
   },
 
   /**

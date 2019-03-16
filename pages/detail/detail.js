@@ -1,13 +1,20 @@
 var app = getApp()
 var rawlist = wx.getStorageSync('cashflow') || []
-
+var wxCharts = require('../../utils/wxcharts.js')
+var typearray = app.globalData.typearray
+var pieChart = null
 Page({
   data: {
     mainindex: '',
+    tabIndex: 0,
     typearray: app.globalData.typearray,
     title: '',
     sum: 0,
-    sublist: []
+    sublist: [], 
+    points: [],
+    series: [],
+    polyline: [],
+    markers: []
   },
   onLoad: function (params) {
     // 生命周期函数--监听页面加载
@@ -19,6 +26,20 @@ Page({
       title: this.data.title
     })
   },
+  changeTab: function (e) {
+    var id = e.currentTarget.id;
+    var that = this;
+    if (id == 'mybills') {
+      this.setData({
+        tabIndex: 0
+      })
+    }
+    if (id == 'statistics') {
+      this.setData({
+        tabIndex: 1
+      })
+    }
+  },
   onReady: function () {
     // 生命周期函数--监听页面初次渲染完成
   },
@@ -27,12 +48,76 @@ Page({
     rawlist = wx.getStorageSync('cashflow') || []
     var sublist = rawlist[this.data.mainindex].items
     var sum = 0
+    var points = []
+    var series = []
+    var tempseries = []
+    for (var i = 0; i < typearray.length; i++) {
+      tempseries.push(0)
+    }
     for (var i = 0; i < sublist.length; i++) {
       sum += parseFloat(sublist[i].account)
+      tempseries[sublist[i].typeindex] += parseFloat(sublist[i].account)
+    }
+    for (var i = 0; i < tempseries.length; i++) {
+      if (tempseries[i] != 0) {
+        series.push({
+          name: typearray[i],
+          data: tempseries[i],
+          id: i
+        })
+      }
     }
     this.setData({
       sum: sum.toFixed(2),
-      sublist: sublist
+      sublist: sublist,
+      series: series,
+      points: points,
+      polyline: [{
+        points: points,
+        color: "#5c95e6FF",
+        width: 8,
+        dottedLine: false
+      }],
+      markers: points
+    })
+    if (series.length == 0) {
+      series.push({
+        name: '无',
+        data: 1
+      })
+    }
+    var windowWidth = 320
+    try {
+      var res = wx.getSystemInfoSync()
+      windowWidth = res.windowWidth
+    } catch (e) {
+      console.error('getSystemInfoSync failed!')
+    }
+    pieChart = new wxCharts({
+      animation: true,
+      canvasId: 'pieCanvas',
+      type: 'pie',
+      series: series,
+      width: windowWidth * 0.96,
+      height: 300,
+      dataLabel: true,
+    })
+  },
+  touchHandler: function (e) {
+    var index = pieChart.getCurrentDataIndex(e)
+    var mainindex = this.data.mainindex
+    var typeindex = this.data.series[index].id
+    wx.navigateTo({
+      url: '../sublist/sublist?mainindex=' + mainindex + '&typeindex=' + typeindex,
+      success: function (res) {
+        // success
+      },
+      fail: function () {
+        // fail
+      },
+      complete: function () {
+        // complete
+      }
     })
   },
   onHide: function () {
@@ -54,6 +139,12 @@ Page({
       desc: '您的私人账本', // 分享描述
       path: '/pages/index/index' // 分享路径
     }
+  },
+  addbill: function(){
+      wx.navigateTo({
+        tempindex :this.data.mainindex,
+        url: '../../pages/edit/edit?mainindex='+this.data.mainindex,
+      })
   },
   //手指触摸动作开始 记录起点X坐标
   touchstart: function (e) {
@@ -108,7 +199,7 @@ Page({
   //删除事件
   del: function (e) {
     var index = e.currentTarget.dataset.index
-    this.data.sublist.splice(index, 1)
+    this.data.sublist.splice(index, 0)
     this.setData({
       sublist: this.data.sublist
     })

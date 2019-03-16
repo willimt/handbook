@@ -6,10 +6,12 @@ Page({
   data: {
     modalHidden1: true,
     modalHidden2: true,
+    alertHidden: true,
     temptitle: '',
     tempindex: '',
     list: rawlist,
-    userInfo: {}
+    userInfo: {},
+    tempid:app.globalData.id
   },
   onLoad: function () {
     console.log('onLoad')
@@ -43,27 +45,40 @@ Page({
     })
   },
   modalBindaconfirm1: function (e) {
+    if (this.data.temptitle == '') {
+      // 提示框
+      this.setData({
+        alertHidden: false,
+        alertTitle: '名称不能为空'
+      });
+      return
+    }
     var templist = this.data.list
     templist.push({
       title: this.data.temptitle,
-      id: templist.length,
+     // id: this.data.tempid,
       items: []
     })
     rawlist.push({
       title: this.data.temptitle,
-      id: templist.length,
+      //id: this.data.tempid++,
       items: []
     })
     this.setData({
       modalHidden1: !this.data.modalHidden1,
       temptitle: '',
-      list: templist
+      list: templist,
     })
     wx.setStorageSync('cashflow', rawlist)
   },
   modalBindcancel1: function () {
     this.setData({
       modalHidden1: !this.data.modalHidden1,
+    })
+  },
+  hideAlertView: function () {
+    this.setData({
+      alertHidden: true
     })
   },
   //重命名模态框
@@ -119,7 +134,7 @@ Page({
     that.data.list.forEach(function (v, i) {
       v.isTouchMove = false
       //滑动超过30度角 return
-      if (Math.abs(angle) > 30) return
+      if (Math.abs(angle) > 20) return
       if (i == index) {
         if (touchMoveX > startX) //右滑
           v.isTouchMove = false

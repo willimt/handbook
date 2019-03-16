@@ -11,18 +11,6 @@
       <input class='input' bindinput="bindremarkInput" maxlength='100' placeholder='' value='{{inputValue}}'></input> 
     </view>
   </view>
-
-  <view class="section">
-        <view class="section__title hengxian">收支</view>
-        <radio-group class="radio-group hengxian" bindchange="radioChange">
-            <label class="radio">
-                <radio class="radio" value="+" checked="true"/>收入
-            </label>
-            <label class="radio">
-                <radio class="radio" value="-"/>支出
-            </label>
-        </radio-group>
-    </view>
     <view class='mod-a'>
     <view class='mod t-name hengxian'>
       <text class='key'>消费类型</text>
@@ -42,6 +30,13 @@
       <view class='start'>
         <picker mode='date' bindchange='stratChange' value="{{startDay}}" start='{{startDay}}'>
           <view class='date'>{{startDay}}<image class='arrow-d' src='/image/arrow-d-0.png'></image>
+          </view>
+        </picker>
+      </view>
+      <text >时间</text>
+      <view class='start'>
+        <picker mode='time' bindchange='dateChange' value="{{date}}" start='{{date}}'>
+          <view class='date'>{{date}}<image class='arrow-d' src='/image/arrow-d-0.png'></image>
           </view>
         </picker>
       </view>
