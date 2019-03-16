@@ -192,6 +192,7 @@ textarea {
 }
 .navigator-text {
   flex: 1;
+  font-size: 35rpx;
 }
 .navigator-arrow {
   padding-right: 26rpx;
@@ -282,7 +283,7 @@ textarea {
  border-radius: 5px;
 }
 .del {
- background-color: orangered;
+ background-color: rgb(255, 0, 13);
  width: 90px;
  display: flex;
  flex-direction: column;
