@@ -1,0 +1,19 @@
+<view class='mod-a mod'>
+<view class='t-name hengxian'>
+      <i-cell value="数据均为本地保存，请放心使用。"></i-cell>
+</view>
+</view>
+      <view class="section__title">练手之作，欢迎您与我反馈问题。</view>
+      <view class='mod-a'>
+      <view class='t-name hengxian key'>
+      <text>葉蕖</text>
+      <image class="image2" bindtap='git' src="../../image/github-fill.png"></image>
+      <image class="image1" bindtap='qq' src="../../image/QQ-circle-fill.png"></image>
+    </view>
+    </view>
+    <view class="section__title">说明</view>
+      <view class='mod-a'>
+      <i-cell  value="添加按钮可以随意拖拽。"> </i-cell><i-cell value="账单浏览时可以直接点击切换，向上滑当然也是可以的"></i-cell>
+      <i-cell value="账本名称输入时，请不要在键盘还在输入时点确定"></i-cell>
+      <i-cell value="图片是我预先设置好的，希望您会喜欢，不喜欢也没有办法了hah"></i-cell>
+    </view>

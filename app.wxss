@@ -9,6 +9,7 @@ page {
 checkbox, radio{
   margin-right: 10rpx;
 }
+
 button{
   margin-top: 20rpx;
   margin-bottom: 20rpx;
@@ -302,6 +303,9 @@ textarea {
 .touch-move-active .rename {
  -webkit-transform: translateX(0);
  transform: translateX(0);
+ display: flex;
+    justify-content:center;
+    align-items:Center;
 }
 
 /* widget */

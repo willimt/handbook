@@ -36,5 +36,6 @@ App({
   globalData: {
     userInfo: null,
     typearray: ['购物', '餐饮', '交通', '住宿', '玩乐', '其他'],
+    incomearray: ['工资', '红包', '兼职', '奖金', '利息', '其他']
   }
 })

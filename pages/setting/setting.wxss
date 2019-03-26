@@ -1,0 +1,68 @@
+@import "../../utils/weui.wxss";
+.mt20{
+  margin-top: 20rpx;
+}
+.userinfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.usermotto {
+  margin-top: 200px;
+}
+.container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 200rpx 0;
+  box-sizing: border-box;
+} 
+
+.userinfo-avatar {
+  width: 128rpx;
+  height: 128rpx;
+  margin: 20rpx;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.userinfo-nickname {
+  color: #aaa;
+}
+
+.usermotto {
+  margin-top: 200px;
+}
+
+
+
+.mod-a{
+  padding: 0 20rpx;
+  border: 1px solid #f0f0f0;
+  background-color: #fff;
+}
+
+.section{
+    margin:20rpx 0;
+}
+.section_gap{
+    padding: 0 30rpx;
+}
+.section__title{
+    font-size:24rpx; 
+    margin-bottom: 5rpx;
+    padding-left: 30rpx;
+    padding-right: 30rpx;
+}
+.section_gap .section__title{
+    padding-left: 0;
+    padding-right: 0;
+}
+.image{
+  height: 50rpx;
+  width:50rpx;
+  padding-left: 30rpx;
+}

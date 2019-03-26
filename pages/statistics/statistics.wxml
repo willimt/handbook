@@ -1,2 +1,29 @@
-<!--pages/statistics/statistics.wxml-->
-<text>pages/statistics/statistics.wxml</text>
+<view class="container">
+  <view class="page-head">
+    <view class="page-head-desc">本月共计花费{{ sum }}元。
+    </view>
+    <view class="page-head-line"></view>
+  </view>
+  <view class="page-body">
+  <view class="page-section page-section-title">
+      消费统计图：
+    </view>
+    <view class="page-section page-section-gap">
+      <canvas canvas-id="pieCanvas" class="canvas" style="height:300px" bindtouchstart="touchHandler"></canvas>
+    </view>
+    </view>
+
+    <view class="page-head">
+    <view class="page-head-desc">本月共计收入{{ sum2 }}元。
+    </view>
+    <view class="page-head-line"></view>
+  </view>
+  <view class="page-body">
+  <view class="page-section page-section-title">
+      收入统计图：
+    </view>
+    <view class="page-section page-section-gap">
+      <canvas canvas-id="pieCanvas2" class="canvas" style="height:300px" bindtouchstart="touchHandler2"></canvas>
+    </view>
+    </view>
+</view>

@@ -4,22 +4,28 @@ var util = require('../../utils/util.js');
 var list=[]
 Page({
   data: {
+    tabIndex: 0,
     title: '',
     remark:'',
     account:'',
     startDay: '2019-3-2',
     date:'',
+    average: '',
     openId: '',
-    userInfo: {},
+    year:'',
+    month:'',
+    person:1,
     numberarray: app.globalData.numberarray,
     numberindex: 0,
     typearray: app.globalData.typearray,
     typeindex: 0,
+    type:'expend',
+    incomearray:app.globalData.incomearray,
+    incomeindex:0,
     mainindex: 0,
     subindex: 0,
-    modalHidden: true,
-    alertHidden: true,
-    alertHidden: '添加成功',
+    modalHidden: false,
+    alertHidden: false,
     inidata: {}
   },
   //设置名称
@@ -29,6 +35,20 @@ Page({
       title: e.detail.value
     });
   },
+  changeTab: function (e) {
+    var id = e.currentTarget.id;
+    var that = this;
+    if (id == 'expend') {
+      this.setData({
+        tabIndex: 0
+      })
+    }
+    if (id == 'income') {
+      this.setData({
+        tabIndex: 1
+      })
+    }
+  },
   //备注
   bindremarkInput: function(e){
     var that=this;
@@ -36,12 +56,24 @@ Page({
       remark:e.detail.value
     })
   },
+  personInput:function(e){
+    var that = this;
+    that.setData({
+      person: e.detail.value
+    })
+  },
   bindTypeArrayChange: function (e) {
     this.setData({
       typeindex: e.detail.value,
+      type:'expend'
     })
   },
-
+  bindIncomeArrayChange: function (e) {
+    this.setData({
+      incomeindex: e.detail.value,
+      type:'income'
+    })
+  },
   //设置开始日期
   stratChange: function (e) {
     var that=this;
@@ -62,40 +94,37 @@ Page({
       account:e.detail.value
     })
   },
+  bindAccountInput2:function(e){
+    var that = this;
+    that.setData({
+      account: e.detail.value,
+      type:'income'
+    })
+  },
   //初始化
   onLoad: function (params) {
     var that = this;
     var now = new Date();
-    var openId = wx.getStorageSync('openId');
     list = wx.getStorageSync('cashflow') || []
 
     // 初始化日期
     that.setData({
       startDay: util.getYMD(now),
       date:util.getHMS(now),
-      userInfo: app.globalData.userInfo,
-      openId: openId,
       mainindex: params.mainindex,
+      year: util.getYear(now),
+      month:util.getMonth(now),
     });
-    console.log(app.globalData.userInfo)
   },
   
   // 隐藏提示弹层
   bindSubmit: function (e) {
     var that = this;
-    if (this.data.title== '') {
-      // 提示框
-      that.setData({
-        alertHidden: false,
-        alertTitle: '标题不能为空'
-      });
-      return
-    }
     var re = /^[0-9]+.?[0-9]*$/;
     if (!re.test(this.data.account)) {
       // 提示框
       that.setData({
-        alertHidden: false,
+        alertHidden: true,
         alertTitle: '金额只能是数字'
       });
       return
@@ -104,14 +133,21 @@ Page({
   },
 
   createbill: function (e) {
+    var now=new Date();
     list[this.data.mainindex].items.push(
       {
         title: this.data.title,
         remark: this.data.remark,
         account: parseFloat(this.data.account || '0'),
+        person:this.data.person,
+        average: parseInt(this.data.account/this.data.person),
         startDay: this.data.startDay,
         typeindex: parseInt(this.data.typeindex),
-        date:this.data.date
+        incomeindex: parseInt(this.data.incomeindex),
+        type:this.data.type,
+        date:this.data.date,
+        year:util.getYear(now),
+        month:util.getMonth(now)
       }
     )
     list[this.data.mainindex].items.sort(function (a, b) {
@@ -130,7 +166,6 @@ Page({
       delta: 1, // 回退前 delta(默认为1) 页面
       success: function (res) {
         // success
-        console.log('goback succ')
       },
       fail: function () {
         // fail
@@ -143,12 +178,12 @@ Page({
   },
   hideAlertView: function () {
     this.setData({
-      alertHidden: true
+      alertHidden: false
     })
   },
   hideModal: function () {
     this.setData({
-      modalHidden: true
+      modalHidden: false
     })
   },
   /**

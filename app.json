@@ -1,35 +1,42 @@
 {
   "pages":[
-    "pages/index/index",
     "pages/home/home",
     "pages/logs/logs",
     "pages/detail/detail",
     "pages/edit/edit",
-    "pages/more/more",
-    "pages/statistics/statistics"
+    "pages/statistics/statistics",
+    "pages/particular/particular",
+    "pages/setting/setting",
+    "pages/all/all"
   ],
   "window":{
     "backgroundTextStyle":"light",
     "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "简单记账",
+    "navigationBarTitleText": "每月纪账",
     "navigationBarTextStyle":"black"
   },
   "tabBar": {
     "color": "#b2b2b2",
-    "selectedColor": "#2fcc85",
+    "selectedColor": "#4842dd",
     "backgroundColor": "#ffffff",
     "list": [
       {
         "pagePath": "pages/home/home",
         "text": "我的账单",
-        "iconPath": "image/my.png",
-        "selectedIconPath": "image/my_link.png"
+        "iconPath": "image/user-1.png",
+        "selectedIconPath": "image/user-2.png"
       },
       {
         "pagePath": "pages/statistics/statistics",
-        "text": "统计",
-        "iconPath": "image/tj.png",
-        "selectedIconPath": "image/tj_link.png"
+        "text": "明细",
+        "iconPath": "image/line chart-1.png",
+        "selectedIconPath": "image/line chart-2.png"
+      },
+      {
+        "pagePath": "pages/setting/setting",
+        "text": "设置",
+        "iconPath": "image/setting-1.png",
+        "selectedIconPath": "image/setting-2.png"
       }
     ]
   }

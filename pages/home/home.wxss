@@ -5,12 +5,23 @@
   flex-direction: column;
   align-items: center;
 }
+.arrow{
+  width: 10px;
+  height: 10px;
+  border-top: 2px solid #999;
+  border-right: 2px solid #999;
+  position: absolute;
+  right: 10px;
+  transform: rotate(45deg);
+   top:45%;
+} 
 
 .userinfo-avatar {
   width: 128rpx;
   height: 128rpx;
   margin: 20rpx;
   border-radius: 50%;
+  overflow:hidden;
 }
 
 .userinfo-nickname {
@@ -55,4 +66,42 @@
  top: 0px;
  left: 0px;
  z-index:999;
+}
+
+.action {
+  display: flex;
+  /*row 横向  column 列表  */
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;  
+  width: 100%;
+  height: 100%;
+}
+
+.new-name {
+  display: flex;
+  height:100%;
+  width:50%;
+  background-color: lightgray;
+  align-items: center;
+  justify-content: center;
+  color: #fff;  
+  border-radius:5px;
+}
+
+.i-item{
+  display: flex;
+  height: 120rpx;
+    align-items: center;
+  justify-content: center; 
+}
+.delate {
+  display: flex;
+  height:100%;
+  width:50%;
+  background-color: rgb(255, 0, 13);
+  align-items: center;
+  justify-content: center; 
+  color: #fff; 
+  border-radius:5px;
 }

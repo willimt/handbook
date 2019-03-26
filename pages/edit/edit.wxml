@@ -1,5 +1,14 @@
 <!--pages/add/add.wxml-->
-<view class='add-page'>
+<view class="container"> 
+<view class="t-menu"> 
+      <view class="t-menu-btn {{tabIndex ? '' : 'selected'}}" bindtap="changeTab" id="expend">
+        <text>支出</text>
+      </view>
+      <view class="t-menu-btn {{tabIndex ? 'selected' : ''}}" bindtap="changeTab" id="income">
+        <text>收入</text>
+      </view>
+</view>
+<view id="expend"  class="add-page t-content {{tabIndex ? '' :'t-content-show'}}">
   <view class='mod-a'>
     <!-- 标题名称 -->
     <view class='mod t-name hengxian'>
@@ -22,6 +31,68 @@
   <view class="section">
         <view class="section__title">金额</view>
         <input bindinput="bindAccountInput" type="digit" confirm-type="done" value="{{account}}" placeholder="请输入数字，无需加正负号"/>
+  </view>
+  <view class='mod t-name hengxian'>
+      <text class='key'>人数</text>
+      <input class='input' bindinput="personInput" maxlength='100' placeholder='1' ></input> 
+    </view>
+  <view class='mod-a mt20'>
+    <!-- 日期 -->
+    <view class='mod '>
+      <text >日期</text>
+      <view class='start'>
+        <picker mode='date' bindchange='stratChange' value="{{startDay}}" start='{{startDay}}'>
+          <view class='date'>{{startDay}}<image class='arrow-d' src='/image/arrow-d-0.png'></image>
+          </view>
+        </picker>
+      </view>
+      <text >时间</text>
+      <view class='start'>
+        <picker mode='time' bindchange='dateChange' value="{{date}}" start='{{date}}'>
+          <view class='date'>{{date}}<image class='arrow-d' src='/image/arrow-d-0.png'></image>
+          </view>
+        </picker>
+      </view>
+      
+    </view>
+  </view>
+  <!--创建按钮-->
+  <view class='create'>
+    <button class="btn {{creating?'disabled':''}}" bindtap='bindSubmit'>添加</button>
+  </view>
+  <!-- 提示信息 -->
+  <i-modal visible="{{ alertHidden }}" bind:ok="hideAlertView" bind:cancel="hideAlertView">
+    <view>{{alertTitle}}</view>
+  </i-modal>
+  <i-modal visible="{{ modalHidden }}" bind:ok="hideModal" bind:cancel="hideModal">
+    <view>添加成功</view>
+  </i-modal>
+</view>
+
+
+<view id="income" class="add-page t-content {{tabIndex ? 't-content-show':'' }}">
+  <view class='mod-a'>
+    <!-- 标题名称 -->
+    <view class='mod t-name hengxian'>
+      <text class='key'>标题</text>
+      <input class='input' bindinput="bindKeyInput" maxlength='100' placeholder='请输入内容' ></input> 
+    </view>
+    <view class='mod t-name'>
+      <text class='key'>备注</text>
+      <input class='input' bindinput="bindremarkInput" maxlength='100' placeholder='' value='{{inputValue}}'></input> 
+    </view>
+  </view>
+    <view class='mod-a'>
+    <view class='mod t-name hengxian'>
+      <text class='key'>收入来源</text>
+      <picker name="incomeindex" value="{{incomeindex}}" range="{{incomearray}}" bindchange="bindIncomeArrayChange">
+                <view class="weui-input" name="member">{{incomearray[incomeindex]}}</view>
+        </picker> 
+    </view>
+    </view>
+  <view class="section">
+        <view class="section__title">金额</view>
+        <input bindinput="bindAccountInput2" type="digit" confirm-type="done" value="{{account}}" placeholder="请输入数字，无需加正负号"/>
   </view>
   <view class='mod-a mt20'>
     <!-- 日期 -->
@@ -48,10 +119,11 @@
     <button class="btn {{creating?'disabled':''}}" bindtap='bindSubmit'>添加</button>
   </view>
   <!-- 提示信息 -->
-  <modal class="modal" hidden="{{alertHidden}}" no-cancel bindconfirm="hideAlertView">
-  <view>{{alertTitle}}</view>
-  </modal>
-  <modal class="modal" hidden="{{modalHidden}}" no-cancel bindconfirm="hideModal">
-  <view>添加成功</view>
-  </modal>
+  <i-modal visible="{{ alertHidden }}" bind:ok="hideAlertView" bind:cancel="hideAlertView">
+    <view>{{alertTitle}}</view>
+  </i-modal>
+  <i-modal visible="{{ modalHidden }}" bind:ok="hideModal" bind:cancel="hideModal">
+    <view>添加成功</view>
+  </i-modal>
+</view>
 </view>

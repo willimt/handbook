@@ -8,38 +8,39 @@
   </movable-view>
 
   <view class="userinfo">
-    <image class="userinfo-avatar" src="{{userInfo.avatarUrl}}" background-size="cover"></image>
-    <text class="userinfo-nickname">{{userInfo.nickName}}的私人账本</text>
+    <open-data type="userAvatarUrl" class="userinfo-avatar"></open-data>
+    <text class="userinfo-nickname">{{userInfo.nickName}}私人账本</text>
   </view>
-  <view>
-    <modal title="新建一个账目" hidden="{{modalHidden1}}" confirm-text="确定" cancel-text="取消" bindconfirm="modalBindaconfirm1" bindcancel="modalBindcancel1">
-      <input name='title' bindblur="setTitle" placeholder="账本名称" value="{{temptitle}}">
+  <i-modal title="新建一个账目" visible="{{ modalHidden1 }}" bind:ok="modalBindaconfirm1" bind:cancel="modalBindcancel1">
+    <input name='title' bindblur="setTitle" placeholder="{{month}}月账单" value="{{temptitle}}">
       </input>
-    </modal>
-    <modal title="账目重命名" hidden="{{modalHidden2}}" confirm-text="确定" cancel-text="取消" bindconfirm="modalBindaconfirm2" bindcancel="modalBindcancel2">
-      <input name='title' bindblur="setTitle" placeholder="账本名称" value="{{temptitle}}">
+</i-modal>
+  <i-modal title="账目重命名" visible="{{ modalHidden2 }}" bind:ok="modalBindaconfirm2" bind:cancel="modalBindcancel2">
+    <input name='title' bindblur="setTitle" placeholder="{{temptitle}}" value="{{temptitle}}">
       </input>
-    </modal>
-  </view>
-  <view class="page-body">
-    <view class="index-bd ">
-      <view class="touch-item {{item.isTouchMove ? 'touch-move-active' : ''}}" data-index="{{index}}" bindtouchstart="touchstart" bindtouchmove="touchmove" wx:for="{{list}}" wx:key="id">
-        <view class="content">
-          <navigator url="../../pages/detail/detail?index={{index}}" class="navigator">
-            <view class="navigator-text">{{item.title}}</view>
-            <view class="navigator-arrow"></view>
-          </navigator>
+</i-modal>
+
+    <i-cell-group wx:for="{{list}}" wx:key="id">
+    <i-swipeout  i-class="i-item" operateWidth="{{160}}" unclosable="{{true}}" toggle="{{toggle}}">
+        <view slot="content" >
+    <i-cell i-class="i-item " title= "{{item.title}}" data-index="{{index}}" bindtap="skipto"></i-cell><view class='arrow'/>
         </view>
-        <view class="rename" catchtap="showModal2" data-index="{{index}}">重命名</view>
-        <view class="del" catchtap="del" data-index="{{index}}">删除</view>
-      </view>
-    </view>
-    
-    
-  </view>
-  <modal class="modal" hidden="{{alertHidden}}" no-cancel bindconfirm="hideAlertView">
-  <view>{{alertTitle}}</view>
-  </modal>
+        <view slot="button" class="action" >
+        <view class="new-name" catchtap="showModal2" data-index="{{index}}">重命名</view>
+        <view class="delate" catchtap="actionsTap" data-index="{{index}}">删除</view>
+        </view>
+      </i-swipeout>
+    </i-cell-group>
+  <i-action-sheet visible="{{ visible2 }}" actions="{{ actions2 }}" show-cancel bind:cancel="handleCancel2" bind:click="handleClickItem2" mask-closable="{{ false }}">
+        <view slot="header" style="padding: 16px">
+            <view style="color: #444;font-size: 16px">确定吗？</view>
+            <text>删除后无法恢复哦</text>
+        </view>
+    </i-action-sheet>
+  <i-modal visible="{{ alertHidden }}" bind:ok="hideAlertView" bind:cancel="hideAlertView">
+    <view>{{alertTitle}}</view>
+</i-modal>
   
 </movable-area>
+
 </view>

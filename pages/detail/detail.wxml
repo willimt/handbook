@@ -1,58 +1,104 @@
-<view class="container">
-<movable-area style="height: 700px;width: 100%;">
-  <movable-view direction="all" x="280" y="80" style="height: 50px; width: 50px;z-index:999999;position: fixed;">
-  <navigator url="../edit/edit?mainindex={{mainindex}}" hover-class="navigator-hover">
+<view class="container"> 
+ 
+    <view class="t-menu"> 
+      <view class="t-menu-btn {{tabIndex==0 ? 'selected' :'' }}" bindtap="change1" id="mybills">
+        <text>支出账单</text>
+      </view>
+      <view class="t-menu-btn {{tabIndex==1 ? 'selected' : ''}}" bindtap="change2" id="income">
+        <text>收入账单</text>
+      </view>
+      <view class="t-menu-btn {{tabIndex==2 ? 'selected' : ''}}" bindtap="changeTab" id="statistics">
+        <text>统计</text>
+      </view>
+    </view>
+     
+    <view id="mybills"  class="t-content {{tabIndex==0 ? 't-content-show' :''}}">
+    <movable-area style="height: 570px;width: 100%;">
+    <movable-view direction="all" x="280" y="80" style="height: 50px; width: 50px;z-index:999999;position: fixed;">
+      <navigator url="../edit/edit?mainindex={{mainindex}}" hover-class="navigator-hover">
         <image class="float-action2" src="../../image/add-select.png"></image>
       </navigator>
-  </movable-view>
-  <view class="t-menu">
-        <view class="t-menu-btn {{tabIndex ? '' : 'selected'}}" bindtap="changeTab" id="mybills">
-            <text>账单</text>
-        </view>
-        <view class="t-menu-btn {{tabIndex ? 'selected' : ''}}" bindtap="changeTab" id="statistics">
-            <text>统计</text>
-        </view>
-  </view>
-  <view id="mybills" class="t-content {{tabIndex ? '' :'t-content-show'}}">
-    <view class="page-head">
-      <view class="page-head-desc">本次共计花费{{ sum }}元。
+    </movable-view>
+      <view class="card_wrap">
+    <view bindtouchend="slidethis" animation="{{index === 0 ? animationData : ''}}" class="card_item card{{index+2}} " wx:for="{{ sublist }}"  wx:key="index" wx:for-index="index" wx:for-item="item">
+      <span class="change_icon" bindtap="slidethis">
+        <image src="../../image/changeicon.png"></image>
+      </span>
+      <view class="card_info" style="margin-top:-150px;top: 230px;left: 50px;">
+    <i-cell  title="日期" value="{{item.startDay}}"></i-cell>
+    <i-cell title="账目" value="{{item.title}}"></i-cell>
+    <i-cell  title="备注" value="{{item.remark}}"></i-cell>
+    <i-cell  title="消费类型" value="{{typearray[item.typeindex]}}"></i-cell>
+    <i-cell title="金额" value="{{item.account}}"></i-cell>
+    <i-cell title="人数" value="{{item.person}}"></i-cell>
+    <i-cell title="人均消费" value="{{item.average}}"></i-cell> 
       </view>
-      <view class="page-head-line"></view>
+      <image src="../../image/bg{{item.image}}.png"></image>
     </view>
-    <view class="page-body">
-      <view class="index-bd">
-        <view class="timeline" wx:for="{{sublist}}" wx:key="id">
-          <view class="timeline_tmicon">{{index+1}}</view>
-          <view class=" touch-main {{item.isTouchMove ? 'touch-active' : ''}}" data-index="{{index}}" bindtouchstart="touchstart" bindtouchmove="touchmove">
-            <view class="touch-content">
-              <navigator url="../more/more?mainindex={{mainindex}}&subindex={{ index }}" class="timeline_tmlabel">
-                <view class="navigator-text1">{{typearray[item.typeindex]}}</view>
-                <view class="navigator-time">{{item.startDay}}</view>
-                <view class="navigator-text2">{{item.title}}：共花费 {{item.account}}元</view>
-              </navigator>
-            </view>
-            <view class="touch-hide" catchtap="del" data-index="{{index}}">删除</view>
+  </view>
+  </movable-area>
+  </view>
+
+
+  <view id="income" class="t-content {{tabIndex ==1?'t-content-show' :''}}" wx:if="{{dontRander}}">
+  <movable-area style="height: 570px;width: 100%;">
+    <movable-view direction="all" x="280" y="80" style="height: 50px; width: 50px;z-index:999999;position: fixed;">
+      <navigator url="../edit/edit?mainindex={{mainindex}}" hover-class="navigator-hover">
+        <image class="float-action2" src="../../image/add-select.png"></image>
+      </navigator>
+    </movable-view>
+      <view class="card_wrap">
+    <view bindtouchend="slidethis2" animation="{{index === 0 ? animationData2 : ''}}" class="card_item card{{index+1}} " wx:for="{{ incomelist }}"  wx:key="index" wx:for-index="index" wx:for-item="item">
+      <span class="change_icon" bindtap="slidethis2">
+        <image src="../../image/changeicon.png"></image>
+      </span>
+      <view class="card_info" style="margin-top:-150px;top: 230px;left: 50px;">
+    <i-cell  title="日期" value="{{item.startDay}}"></i-cell>
+    <i-cell title="账目" value="{{item.title}}"></i-cell>
+    <i-cell  title="备注" value="{{item.remark}}"></i-cell>
+    <i-cell  title="收入来源" value="{{incomearray[item.incomeindex]}}"></i-cell>
+    <i-cell title="金额" value="{{item.account}}"></i-cell>
+      </view>
+      <image src="../../image/bg{{item.image}}.png"></image>
+    </view>
+  </view>
+  </movable-area>
+  </view>
+
+
+
+    <view id="statistics" class="t-content {{tabIndex==2 ? 't-content-show':'' }}">
+      <view class="container">
+        <view class="page-head">
+          <view class="page-head-desc">本次共计花费{{ sum }}元。
+          </view>
+          <view class="page-head-line"></view>
+        </view>
+        <view class="page-body">
+          <view class="page-section page-section-title">
+            消费统计图：
+          </view>
+          <view class="page-section page-section-gap">
+            <canvas canvas-id="pieCanvas" class="canvas" style="height:300px" bindtouchstart="touchHandler"></canvas>
           </view>
         </view>
       </view>
+
+      <view class="container">
+        <view class="page-head">
+          <view class="page-head-desc">本次共计收入{{ sum2 }}元。
+          </view>
+          <view class="page-head-line"></view>
+        </view>
+        <view class="page-body">
+          <view class="page-section page-section-title">
+            收入统计图：
+          </view>
+          <view class="page-section page-section-gap">
+            <canvas canvas-id="pieCanvas2" class="canvas" style="height:300px" bindtouchstart="touchHandler2"></canvas>
+          </view> 
+        </view>
+      </view>
     </view>
-  </view>
-  <view id="statistics" class="t-content {{tabIndex ? 't-content-show':'' }}"> 
-    <view class="container">
-  <view class="page-head">
-    <view class="page-head-desc">本次共计花费{{ sum }}元。
-    </view>
-    <view class="page-head-line"></view>
-  </view>
-  <view class="page-body">
-  <view class="page-section page-section-title">
-      消费统计图：
-    </view>
-    <view class="page-section page-section-gap">
-      <canvas canvas-id="pieCanvas" class="canvas" style="height:300px" bindtouchstart="touchHandler"></canvas>
-    </view>
-    </view>
-    </view>
-  </view>
-</movable-area>
+  
 </view>
