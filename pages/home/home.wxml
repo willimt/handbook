@@ -1,6 +1,6 @@
 <!--index.wxml-->
 <view class="container">
-<movable-area style="height: 500px;width: 100%;">
+<movable-area style="height: 100%;width: 100%;">
   <movable-view direction="all" x="280" y="80" style="height: 50px; width: 50px;z-index:999999;position: fixed;">
   <view bindtap="showModal1">
       <image class="float-action2" src="../../image/add-select.png"></image>
@@ -23,11 +23,11 @@
     <i-cell-group wx:for="{{list}}" wx:key="id">
     <i-swipeout  i-class="i-item" operateWidth="{{160}}" unclosable="{{true}}" toggle="{{toggle}}">
         <view slot="content" >
-    <i-cell i-class="i-item " title= "{{item.title}}" data-index="{{index}}" bindtap="skipto"></i-cell><view class='arrow'/>
+    <i-cell i-class="i-item " title= "{{item.title}}" data-index="{{item.id}}" bindtap="skipto"></i-cell><view class='arrow'/>
         </view>
         <view slot="button" class="action" >
-        <view class="new-name" catchtap="showModal2" data-index="{{index}}">重命名</view>
-        <view class="delate" catchtap="actionsTap" data-index="{{index}}">删除</view>
+        <view class="new-name" catchtap="showModal2" data-index="{{item.id}}">重命名</view>
+        <view class="delate" catchtap="actionsTap" data-index="{{item.id}}">删除</view>
         </view>
       </i-swipeout>
     </i-cell-group>

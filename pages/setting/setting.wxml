@@ -8,5 +8,7 @@
         <i-cell i-class="mod-a" title="清除缓存" is-link bindtap="clear"></i-cell>
   </view>
   <view class="section">
-        <image class="image" src="../../image/info-circle.png"></image><i-cell i-class="mod-a" title="关于" is-link url="../../pages/all/all"></i-cell>
+        
+        <view style="font-size:14px; padding-left: 14px;">about</view>
+        <i-cell i-class="mod-a" title="关于" is-link url="../../pages/all/all"></i-cell>
   </view>

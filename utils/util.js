@@ -23,14 +23,7 @@ function getHMS(date) {
 
   return [hour, minute, second].map(formatNumber).join(':')
 }
-function getYear(date) {
-  var year = date.getFullYear()
-  return year;
-}
-function getMonth(date) {
-  var month = date.getMonth() + 1
-  return month;
-}
+
 const formatNumber = n => {
   n = n.toString()
   return n[1] ? n : '0' + n
@@ -39,7 +32,5 @@ const formatNumber = n => {
 module.exports = {
   formatTime: formatTime,
   getYMD: getYMD,
-  getHMS: getHMS,
-  getYear: getYear,
-  getMonth: getMonth
+  getHMS: getHMS
 }

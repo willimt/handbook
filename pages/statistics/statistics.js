@@ -38,18 +38,20 @@ Page({
     var now=new Date();
     var sublist=[];
     var incomelist = []
-    var year=util.getYear(now);
-    var month=util.getMonth(now);
+    var date=util.getYMD(now);
+    var a=date.split("-");
+    var year = parseFloat(a[0]);
+    var month = parseFloat(a[1]);
     rawlist = wx.getStorageSync('cashflow') || []
     for(var i=0;i<rawlist.length;i++){
-      for(var j=0;j<rawlist[i].items.length;j++){
-        if (rawlist[i].items[j].year == year && rawlist[i].items[j].month==month){
-          if (rawlist[i].items[j].type == 'expend') {
-            sublist.push(rawlist[i].items[j])
-          }
-          else {
-            incomelist.push(rawlist[i].items[j])
-          }
+      for(var j=0;j<rawlist[i].items[0].items.length;j++){
+        if (rawlist[i].items[0].items[j].year == year && rawlist[i].items[0].items[j].month==month){ 
+          sublist.push(rawlist[i].items[0].items[j])
+        }
+      }
+      for (var j = 0; j < rawlist[i].items[1].items.length; j++) {
+        if (rawlist[i].items[1].items[j].year == year && rawlist[i].items[1].items[j].month == month) {
+          incomelist.push(rawlist[i].items[1].items[j])
         }
       }
     }
@@ -159,7 +161,6 @@ Page({
     var index = pieChart.getCurrentDataIndex(e)
     if (index >= 0) {
     var typeindex = this.data.series[index].id
-    console.log(this.data.series)
     wx.navigateTo({
       url: '../particular/particular?typeindex=' + typeindex,
       success: function (res) {
@@ -178,7 +179,6 @@ Page({
     var index = pieChart2.getCurrentDataIndex(e)
     if (index >= 0) {
     var incomeindex = this.data.series2[index].id
-    console.log(this.data.series2)
     wx.navigateTo({
       url: '../particular/particular?incomeindex=' + incomeindex,
       success: function (res) {

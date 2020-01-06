@@ -25,15 +25,21 @@ Page({
     rawlist = wx.getStorageSync('cashflow') || []
     var that = this
     var now=new Date()
+    var date = util.getYMD(now);
+    var a=date.split("-");
     //调用应用实例的方法获取全局数据
     that.setData({
-      month: util.getMonth(now),
-      temptitle: util.getMonth(now) + '月账单'
+      month: parseFloat(a[1]),
+      temptitle: parseFloat(a[1]) + '月账单'
     })
-    console.log(rawlist);
   },
   onShow:function(){
     rawlist = wx.getStorageSync('cashflow') || []
+    var count=0;
+    for(var i=0;i<rawlist.length;i++){
+      rawlist[i].id=count
+      count++
+    }
     this.setData({
       list:rawlist
     })
@@ -58,11 +64,10 @@ Page({
   handleClickItem2(e) {
     const action = [...this.data.actions2];
     action[0].loading = true;
-
     this.setData({
       actions2: action
     });
-
+    var index=wx.getStorageSync('index')
     setTimeout(() => {
       action[0].loading = false;
       this.setData({
@@ -70,7 +75,7 @@ Page({
         actions2: action,
         toggle: this.data.toggle ? false : true
       });
-      this.del(e);
+      this.del(index);
     }, 500);
     
   },
@@ -78,6 +83,7 @@ Page({
     this.setData({
       visible2: true
     });
+    wx.setStorageSync('index', e.target.dataset.index)
   },
   //新增模态框
   showModal1: function (e) {
@@ -95,7 +101,15 @@ Page({
     var that=this;
     rawlist.push({
       title: this.data.temptitle,
-      items: []
+
+      items: [{
+        type: 'expend',
+        items: []
+      },
+        {
+          type: 'income',
+          items: []
+        }]
     })
     this.setData({
       modalHidden1: !this.data.modalHidden1,
@@ -104,6 +118,7 @@ Page({
     })
     wx.setStorageSync('cashflow', rawlist)
     console.log(rawlist)
+    this.onShow()
   },
   modalBindcancel1: function () {
     this.setData({
@@ -144,18 +159,19 @@ Page({
   },
   //删除事件
   del: function (e) {
-    var index = e.currentTarget.dataset.index
+    var index = e
     this.data.list.splice(index, 1)
     this.setData({
       list: this.data.list
     })
-    rawlist.splice(index, 1)
+    rawlist.splice(index, 0)
     wx.setStorageSync('cashflow', rawlist)
     wx.showToast({
       title: '成功',
       icon: 'success',
       duration: 2000
     })
+    this.onShow()
   },
   onShareAppMessage: function () {
     return{

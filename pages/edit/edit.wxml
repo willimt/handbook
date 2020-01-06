@@ -41,14 +41,14 @@
     <view class='mod '>
       <text >日期</text>
       <view class='start'>
-        <picker mode='date' bindchange='stratChange' value="{{startDay}}" start='{{startDay}}'>
+        <picker mode="date" bindchange='stratChange' value="{{startDay}}" >
           <view class='date'>{{startDay}}<image class='arrow-d' src='/image/arrow-d-0.png'></image>
           </view>
         </picker>
       </view>
       <text >时间</text>
       <view class='start'>
-        <picker mode='time' bindchange='dateChange' value="{{date}}" start='{{date}}'>
+        <picker mode="time" bindchange='dateChange' value="{{date}}" >
           <view class='date'>{{date}}<image class='arrow-d' src='/image/arrow-d-0.png'></image>
           </view>
         </picker>
@@ -99,14 +99,14 @@
     <view class='mod '>
       <text >日期</text>
       <view class='start'>
-        <picker mode='date' bindchange='stratChange' value="{{startDay}}" start='{{startDay}}'>
+        <picker mode='date' bindchange='stratChange' value="{{startDay}}" >
           <view class='date'>{{startDay}}<image class='arrow-d' src='/image/arrow-d-0.png'></image>
           </view>
         </picker>
       </view>
       <text >时间</text>
       <view class='start'>
-        <picker mode='time' bindchange='dateChange' value="{{date}}" start='{{date}}'>
+        <picker mode='time' bindchange='dateChange' value="{{date}}" >
           <view class='date'>{{date}}<image class='arrow-d' src='/image/arrow-d-0.png'></image>
           </view>
         </picker>

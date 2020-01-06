@@ -1,5 +1,5 @@
 {
-  "pages":[
+  "pages": [
     "pages/home/home",
     "pages/logs/logs",
     "pages/detail/detail",
@@ -9,11 +9,11 @@
     "pages/setting/setting",
     "pages/all/all"
   ],
-  "window":{
-    "backgroundTextStyle":"light",
+  "window": {
+    "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",
     "navigationBarTitleText": "每月纪账",
-    "navigationBarTextStyle":"black"
+    "navigationBarTextStyle": "black"
   },
   "tabBar": {
     "color": "#b2b2b2",
@@ -39,5 +39,6 @@
         "selectedIconPath": "image/setting-2.png"
       }
     ]
-  }
+  },
+  "sitemapLocation": "sitemap.json"
 }

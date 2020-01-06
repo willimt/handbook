@@ -112,8 +112,6 @@ Page({
       startDay: util.getYMD(now),
       date:util.getHMS(now),
       mainindex: params.mainindex,
-      year: util.getYear(now),
-      month:util.getMonth(now),
     });
   },
   
@@ -134,29 +132,50 @@ Page({
 
   createbill: function (e) {
     var now=new Date();
-    list[this.data.mainindex].items.push(
-      {
-        title: this.data.title,
-        remark: this.data.remark,
-        account: parseFloat(this.data.account || '0'),
-        person:this.data.person,
-        average: parseInt(this.data.account/this.data.person),
-        startDay: this.data.startDay,
-        typeindex: parseInt(this.data.typeindex),
-        incomeindex: parseInt(this.data.incomeindex),
-        type:this.data.type,
-        date:this.data.date,
-        year:util.getYear(now),
-        month:util.getMonth(now)
-      }
-    )
-    list[this.data.mainindex].items.sort(function (a, b) {
+    var a=this.data.startDay.split("-")
+    if(this.data.type=='expend'){
+      list[this.data.mainindex].items[0].items.push(
+        {
+          title: this.data.title,
+          remark: this.data.remark,
+          account: parseFloat(this.data.account || '0'),
+          person: this.data.person,
+          average: parseInt(this.data.account / this.data.person),
+          startDay: this.data.startDay,
+          typeindex: parseInt(this.data.typeindex),
+          type: this.data.type,
+          date: this.data.date,
+          year: parseFloat(a[0]),
+          month: parseFloat(a[1])
+        }
+      )
+    }
+    else {
+      list[this.data.mainindex].items[1].items.push(
+        {
+          title: this.data.title,
+          remark: this.data.remark,
+          account: parseFloat(this.data.account || '0'),
+          startDay: this.data.startDay,
+          incomeindex: parseInt(this.data.incomeindex),
+          type: this.data.type,
+          date: this.data.date,
+          year: parseFloat(a[0]),
+          month: parseFloat(a[1])
+        }
+      )
+    }
+    list[this.data.mainindex].items[0].items.sort(function (a, b) {
+      var d1 = new Date(a.startDay.replace(/-/g, '/') + ' ' + a.date)
+      var d2 = new Date(b.startDay.replace(/-/g, '/') + ' ' + b.date)
+      return d2 - d1
+    }) 
+    list[this.data.mainindex].items[1].items.sort(function (a, b) {
       var d1 = new Date(a.startDay.replace(/-/g, '/') + ' ' + a.date)
       var d2 = new Date(b.startDay.replace(/-/g, '/') + ' ' + b.date)
       return d2 - d1
     }) 
     wx.setStorageSync('cashflow',list);
-    console.log(wx.getStorageSync('cashflow'));
     wx.showToast({
       title: '成功',
       icon: 'success',

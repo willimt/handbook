@@ -11,29 +11,31 @@
         <text>统计</text>
       </view>
     </view>
-     
+    <i-action-sheet visible="{{ choose }}" actions="{{ actions2 }}" show-cancel bind:cancel="handleCancel2" bind:click="handleClickItem2" mask-closable="{{ false }}">
+        <view slot="header" style="padding: 16px">
+            <view style="color: #444;font-size: 16px">确定吗？</view>
+            <text>删除后无法恢复哦</text>
+        </view>
+    </i-action-sheet>
     <view id="mybills"  class="t-content {{tabIndex==0 ? 't-content-show' :''}}">
-    <movable-area style="height: 570px;width: 100%;">
+    <movable-area style="height: 500px;width: 100%;">
     <movable-view direction="all" x="280" y="80" style="height: 50px; width: 50px;z-index:999999;position: fixed;">
       <navigator url="../edit/edit?mainindex={{mainindex}}" hover-class="navigator-hover">
         <image class="float-action2" src="../../image/add-select.png"></image>
       </navigator>
     </movable-view>
-      <view class="card_wrap">
-    <view bindtouchend="slidethis" animation="{{index === 0 ? animationData : ''}}" class="card_item card{{index+2}} " wx:for="{{ sublist }}"  wx:key="index" wx:for-index="index" wx:for-item="item">
-      <span class="change_icon" bindtap="slidethis">
-        <image src="../../image/changeicon.png"></image>
-      </span>
-      <view class="card_info" style="margin-top:-150px;top: 230px;left: 50px;">
-    <i-cell  title="日期" value="{{item.startDay}}"></i-cell>
-    <i-cell title="账目" value="{{item.title}}"></i-cell>
-    <i-cell  title="备注" value="{{item.remark}}"></i-cell>
-    <i-cell  title="消费类型" value="{{typearray[item.typeindex]}}"></i-cell>
-    <i-cell title="金额" value="{{item.account}}"></i-cell>
-    <i-cell title="人数" value="{{item.person}}"></i-cell>
-    <i-cell title="人均消费" value="{{item.average}}"></i-cell> 
-      </view>
-      <image src="../../image/bg{{item.image}}.png"></image>
+    
+      <view >
+    <view bindlongpress="isdel" data-index="{{item.id}}" data-type="expend"    wx:for="{{ sublist }}"  wx:key="index" wx:for-index="index" wx:for-item="item">
+
+    <i-card  title="{{item.startDay}}">
+      <view slot="content">账目: {{item.title}} </view>
+      <view slot="content">消费类型: {{typearray[item.typeindex]}}</view>
+      <view slot="content">金额: {{item.account}}</view>
+      <view slot="content">人数: {{item.person}}</view>
+      <view slot="content">人均消费: {{item.average}}</view>
+      <view slot="footer">备注: {{item.remark}}</view>
+    </i-card>
     </view>
   </view>
   </movable-area>
@@ -41,25 +43,22 @@
 
 
   <view id="income" class="t-content {{tabIndex ==1?'t-content-show' :''}}" wx:if="{{dontRander}}">
-  <movable-area style="height: 570px;width: 100%;">
+  <movable-area style="height: 500px;width: 100%;">
     <movable-view direction="all" x="280" y="80" style="height: 50px; width: 50px;z-index:999999;position: fixed;">
       <navigator url="../edit/edit?mainindex={{mainindex}}" hover-class="navigator-hover">
         <image class="float-action2" src="../../image/add-select.png"></image>
       </navigator>
     </movable-view>
-      <view class="card_wrap">
-    <view bindtouchend="slidethis2" animation="{{index === 0 ? animationData2 : ''}}" class="card_item card{{index+1}} " wx:for="{{ incomelist }}"  wx:key="index" wx:for-index="index" wx:for-item="item">
-      <span class="change_icon" bindtap="slidethis2">
-        <image src="../../image/changeicon.png"></image>
-      </span>
-      <view class="card_info" style="margin-top:-150px;top: 230px;left: 50px;">
-    <i-cell  title="日期" value="{{item.startDay}}"></i-cell>
-    <i-cell title="账目" value="{{item.title}}"></i-cell>
-    <i-cell  title="备注" value="{{item.remark}}"></i-cell>
-    <i-cell  title="收入来源" value="{{incomearray[item.incomeindex]}}"></i-cell>
-    <i-cell title="金额" value="{{item.account}}"></i-cell>
-      </view>
-      <image src="../../image/bg{{item.image}}.png"></image>
+   
+      <view>
+    <view bindlongpress="isdel" data-index="{{item.id}}" data-type="income"   wx:for="{{ incomelist }}"  wx:key="index" wx:for-index="index" wx:for-item="item">
+      
+      <i-card  title="{{item.startDay}}">
+      <view slot="content">账目: {{item.title}} </view>
+      <view slot="content">收入来源: {{incomearray[item.incomeindex]}}</view>
+      <view slot="content">金额: {{item.account}}</view>
+      <view slot="footer">备注: {{item.remark}}</view>
+    </i-card>
     </view>
   </view>
   </movable-area>

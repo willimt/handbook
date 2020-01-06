@@ -8,6 +8,14 @@ var pieChart2 = null
 Page({
   data: {
     dontRander : true,
+    choose:false,
+    toggle: false,
+    actions2: [
+      {
+        name: '删除',
+        color: '#ed3f14'
+      }
+    ],
     mainindex: '',
     tabIndex: 0,
     typearray: app.globalData.typearray,
@@ -36,52 +44,13 @@ Page({
       mainindex: params.index,
       title: rawlist[params.index].title,
     })
+    console.log(params.index)
     wx.setNavigationBarTitle({
       title: this.data.title
     })
   },
-  slidethis: function (e) {
-    var animation = wx.createAnimation({
-      duration: 300,
-      timingFunction: 'cubic-bezier(.8,.2,.1,0.8)',
-    });
-    var self = this;
-    animation.translateY(-620).rotate(-3).translateX(0).step();
-    animation.translateY(62).translateX(25).rotate(0).step();
-    this.setData({
-      animationData:animation.export()
-    });
-    setTimeout(function () {
-      var sublist = self.data.sublist
-      var slidethis = self.data.sublist.shift();
-      self.data.sublist.push(slidethis);
-      self.setData({
-        sublist: self.data.sublist,
-        animationData: {}
-      });
-    }, 350);
-  },
-  slidethis2: function (e) {
-    var animation2 = wx.createAnimation({
-      duration: 300,
-      timingFunction: 'cubic-bezier(.8,.2,.1,0.8)',
-    });
-    var self = this;
-    animation2.translateY(-620).rotate(-5).translateX(0).step();
-    animation2.translateY(62).translateX(25).rotate(0).step();
-    this.setData({
-      animationData2: animation2.export()
-    });
-    setTimeout(function () {
-      var incomelist = self.data.incomelist
-      var slidethis = self.data.incomelist.shift();
-      self.data.incomelist.push(slidethis);
-      self.setData({
-        incomelist: self.data.incomelist,
-        animationData2: {}
-      });
-    }, 350);
-  },
+  
+  
   changeTab: function (e) {
     var id = e.currentTarget.id;
     var that = this;
@@ -109,21 +78,14 @@ Page({
   onShow: function () {
     // 生命周期函数--监听页面显示
     rawlist = wx.getStorageSync('cashflow') || []
+    console.log(rawlist)
     var sublist=[]
-    var incomelist=[]
-    var count=0
-    for (var i = 0; i < rawlist[this.data.mainindex].items.length;i++){
-      if (rawlist[this.data.mainindex].items[i].type==='expend'){
-       
-        count++
-        rawlist[this.data.mainindex].items[i].image = count % 16
-        sublist.push(rawlist[this.data.mainindex].items[i])
+    var incomelist =[]
+    for (var i = 0; i < rawlist[this.data.mainindex].items[0].items.length;i++){
+      sublist.push(rawlist[this.data.mainindex].items[0].items[i])
       }
-      else{
-        count++
-        rawlist[this.data.mainindex].items[i].image=count%16
-        incomelist.push(rawlist[this.data.mainindex].items[i])
-      }
+    for (var i = 0; i < rawlist[this.data.mainindex].items[1].items.length; i++){
+      incomelist.push(rawlist[this.data.mainindex].items[1].items[i])
     }
     var sum = 0
     var sum2= 0
@@ -264,6 +226,67 @@ Page({
       }
     })
     }
+  },
+  isdel(e){
+    this.setData({
+      choose:true,
+    })
+    wx.setStorageSync('target', e.currentTarget.dataset)
+    console.log(e.currentTarget.dataset)
+  },
+  handleCancel2() {
+    this.setData({
+      choose: false,
+      toggle: this.data.toggle ? false : true
+    });
+  },
+  handleClickItem2() {
+    const action = [...this.data.actions2];
+    action[0].loading = true;
+
+    this.setData({
+      actions2: action
+    });
+    var target=wx.getStorageSync('target')
+    wx.setStorageSync('target', '')
+    setTimeout(() => {
+      action[0].loading = false;
+      this.setData({
+        choose: false,
+        actions2: action,
+        toggle: this.data.toggle ? false : true
+      });
+      this.del(target);
+    }, 500);
+
+  },
+
+  del: function (target) {
+    var index = target.index
+    var type=target.type
+    console.log(index)
+    console.log(type)
+    if (type ==="expend"){
+      this.data.sublist.splice(index, 1)
+      this.setData({
+        sublist: this.data.sublist
+      })
+      rawlist[this.data.mainindex].items[0].items.splice(index, 1)
+    }
+    else {
+      this.data.incomelist.splice(index, 1)
+      this.setData({
+        incomelist: this.data.incomelist
+      })
+      rawlist[this.data.mainindex].items[1].items.splice(index, 1)
+    }
+    wx.setStorageSync('cashflow', rawlist)
+    wx.showToast({
+      title: '成功',
+      icon: 'success',
+      duration: 2000
+    })
+    this.onShow()
   },
   onHide: function () {
     // 生命周期函数--监听页面隐藏

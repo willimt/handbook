@@ -14,7 +14,6 @@ Page({
       success(res) {
         wx.getClipboardData({
           success(res) {
-            console.log(res.data) // data
 
           }
         })
@@ -27,7 +26,19 @@ Page({
       success(res) {
         wx.getClipboardData({
           success(res) {
-            console.log(res.data) // data
+            
+          }
+        })
+      }
+    })
+  },
+  weibo: function () {
+    wx.setClipboardData({
+      data: 'https://weibo.com/u/6915154015',
+      success(res) {
+        wx.getClipboardData({
+          success(res) {
+            
           }
         })
       }

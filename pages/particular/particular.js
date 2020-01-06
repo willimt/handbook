@@ -40,8 +40,10 @@ Page({
     // 生命周期函数--监听页面加载
     var now = new Date();
     var sublist = [];
-    var year = util.getYear(now);
-    var month = util.getMonth(now);
+    var date = util.getYMD(now);
+    var a = date.split("-");
+    var year = parseFloat(a[0]);
+    var month = parseFloat(a[1]);
     rawlist = wx.getStorageSync('cashflow') || []
     if(params.mainindex){
       if(params.typeindex){
@@ -50,11 +52,12 @@ Page({
           typeindex: params.typeindex
         })
         var count = 0
-        for (var j = 0; j < rawlist[this.data.mainindex].items.length; j++) {
-          if (rawlist[this.data.mainindex].items[j].typeindex == this.data.typeindex && rawlist[this.data.mainindex].items[j].type == 'expend') {
+        for (var j = 0; j < rawlist[this.data.mainindex].items[0].items.length; j++) {
+          if (rawlist[this.data.mainindex].items[0].items[j].typeindex == this.data.typeindex) {
+            
+            rawlist[this.data.mainindex].items[0].items[j].image = count % 13
             count++
-            rawlist[this.data.mainindex].items[j].image = count % 16
-            sublist.push(rawlist[this.data.mainindex].items[j])
+            sublist.push(rawlist[this.data.mainindex].items[0].items[j])
           }
         }
       }
@@ -65,11 +68,12 @@ Page({
           tabindex:1
         })
         var count=0
-        for (var j = 0; j < rawlist[this.data.mainindex].items.length; j++) {
-          if (rawlist[this.data.mainindex].items[j].incomeindex == this.data.incomeindex && rawlist[this.data.mainindex].items[j].type == 'income') {
+        for (var j = 0; j < rawlist[this.data.mainindex].items[1].items.length; j++) {
+          if (rawlist[this.data.mainindex].items[1].items[j].incomeindex == this.data.incomeindex) {
+           
+            rawlist[this.data.mainindex].items[1].items[j].image = count % 13
             count++
-            rawlist[this.data.mainindex].items[j].image = count % 16
-            sublist.push(rawlist[this.data.mainindex].items[j])
+            sublist.push(rawlist[this.data.mainindex].items[1].items[j])
           }
         }
       }
@@ -81,11 +85,11 @@ Page({
         })
         var count=0
         for (var i = 0; i < rawlist.length; i++) {
-          for (var j = 0; j < rawlist[i].items.length; j++) {
-            if (rawlist[i].items[j].year == year && rawlist[i].items[j].month == month && rawlist[i].items[j].typeindex == this.data.typeindex &&rawlist[i].items[j].type == 'expend') {
+          for (var j = 0; j < rawlist[i].items[0].items.length; j++) {
+            if (rawlist[i].items[0].items[j].year == year && rawlist[i].items[0].items[j].month == month && rawlist[i].items[0].items[j].typeindex == this.data.typeindex) {
+              rawlist[i].items[0].items[j].image = count % 13
               count++
-              rawlist[i].items[j].image = count % 16
-              sublist.push(rawlist[i].items[j])
+              sublist.push(rawlist[i].items[0].items[j])
             }
           }
         }
@@ -97,11 +101,11 @@ Page({
         })
         var count=0
         for (var i = 0; i < rawlist.length; i++) {
-          for (var j = 0; j < rawlist[i].items.length; j++) {
-            if (rawlist[i].items[j].year == year && rawlist[i].items[j].month == month && rawlist[i].items[j].incomeindex == this.data.incomeindex && rawlist[i].items[j].type=='income') {
+          for (var j = 0; j < rawlist[i].items[1].items.length; j++) {
+            if (rawlist[i].items[1].items[j].year == year && rawlist[i].items[1].items[j].month == month && rawlist[i].items[1].items[j].incomeindex == this.data.incomeindex) {
+              rawlist[i].items[1].items[j].image = count % 13
               count++
-              rawlist[i].items[j].image = count % 16
-              sublist.push(rawlist[i].items[j])
+              sublist.push(rawlist[i].items[1].items[j])
             }
           }
         }

@@ -16,7 +16,7 @@
     <i-cell  title="消费类型" value="{{typearray[item.typeindex]}}"></i-cell>
     <i-cell title="金额" value="{{item.account}}"></i-cell>
     <i-cell title="人数" value="{{item.person}}"></i-cell>
-    <i-cell title="人均消费" value="{{item.account/item.person}}"></i-cell> 
+    <i-cell title="人均消费" value="{{item.average}}"></i-cell> 
       </view>
       <image src="../../image/bg{{item.image}}.png"></image>
     </view>

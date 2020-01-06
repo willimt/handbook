@@ -5,6 +5,10 @@ App({
     var logs = wx.getStorageSync('logs') || []
     logs.unshift(Date.now())
     wx.setStorageSync('logs', logs)
+    var number=wx.getStorageSync('number')
+    if(number==''){
+      wx.setStorageSync('number', 0)
+    }
     // 登录
     wx.login({
       success: res => {
